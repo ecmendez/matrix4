@@ -7,3 +7,4 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 require File.expand_path('../browsercms.seeds.rb', __FILE__)
+

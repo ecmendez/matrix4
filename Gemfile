@@ -29,7 +29,12 @@ gem 'spring',        group: :development
 #needs to install BrowserCMS
 gem "browsercms", git: "https://github.com/jamesprior/browsercms" # for now, it has important changes
 #adds bcms_blog module to BrowserCMS
-# gem 'bcms', path: "../../engines/blog", branch: 'rails4'
+gem 'bcms_blog', path: "../../engines/bcms_blog", branch: 'rails4'
 gem 'activeresource', :require => 'active_resource'
 gem 'rails-observers'
 gem 'actionpack-page_caching'
+
+
+gem 'pry'
+gem 'pry-rails'
+gem 'pry-byebug'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150417143706) do
+ActiveRecord::Schema.define(version: 20150420142826) do
 
   create_table "cms_attachment_versions", force: true do |t|
     t.string   "data_file_name"
@@ -63,29 +63,45 @@ ActiveRecord::Schema.define(version: 20150417143706) do
   end
 
   create_table "cms_blog_comment_versions", force: true do |t|
-    t.integer "blog_comment_id"
-    t.integer "version"
-    t.string  "version_comment"
-    t.integer "post_id"
-    t.string  "author"
-    t.string  "email"
-    t.string  "url"
-    t.string  "ip"
-    t.text    "body"
+    t.integer  "post_id"
+    t.string   "author"
+    t.string   "email"
+    t.string   "url"
+    t.string   "ip"
+    t.text     "body"
+    t.integer  "original_record_id"
+    t.integer  "version"
+    t.string   "name"
+    t.boolean  "published",          default: false
+    t.boolean  "deleted",            default: false
+    t.boolean  "archived",           default: false
+    t.string   "version_comment"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
-
-  add_index "cms_blog_comment_versions", ["blog_comment_id", "version"], name: "index_cms_blog_comment_versions_on_id_and_version", using: :btree
 
   create_table "cms_blog_comments", force: true do |t|
-    t.integer "version"
-    t.integer "lock_version", default: 0
-    t.integer "post_id"
-    t.string  "author"
-    t.string  "email"
-    t.string  "url"
-    t.string  "ip"
-    t.text    "body"
+    t.integer  "post_id"
+    t.string   "author"
+    t.string   "email"
+    t.string   "url"
+    t.string   "ip"
+    t.text     "body"
+    t.integer  "version"
+    t.integer  "lock_version",  default: 0
+    t.string   "name"
+    t.boolean  "published",     default: false
+    t.boolean  "deleted",       default: false
+    t.boolean  "archived",      default: false
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
+
+  add_index "cms_blog_comments", ["version"], name: "index_cms_blog_comments_on_version", using: :btree
 
   create_table "cms_blog_group_memberships", force: true do |t|
     t.integer "blog_id"
@@ -93,9 +109,6 @@ ActiveRecord::Schema.define(version: 20150417143706) do
   end
 
   create_table "cms_blog_post_versions", force: true do |t|
-    t.integer  "blog_post_id"
-    t.integer  "version"
-    t.string   "version_comment"
     t.integer  "blog_id"
     t.integer  "author_id"
     t.integer  "category_id"
@@ -107,13 +120,19 @@ ActiveRecord::Schema.define(version: 20150417143706) do
     t.datetime "published_at"
     t.integer  "attachment_id"
     t.integer  "attachment_version"
+    t.integer  "original_record_id"
+    t.integer  "version"
+    t.boolean  "published",          default: false
+    t.boolean  "deleted",            default: false
+    t.boolean  "archived",           default: false
+    t.string   "version_comment"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
-
-  add_index "cms_blog_post_versions", ["blog_post_id", "version"], name: "index_cms_blog_post_versions_on_id_and_version", using: :btree
 
   create_table "cms_blog_posts", force: true do |t|
-    t.integer  "version"
-    t.integer  "lock_version",       default: 0
     t.integer  "blog_id"
     t.integer  "author_id"
     t.integer  "category_id"
@@ -125,28 +144,53 @@ ActiveRecord::Schema.define(version: 20150417143706) do
     t.datetime "published_at"
     t.integer  "attachment_id"
     t.integer  "attachment_version"
+    t.integer  "version"
+    t.integer  "lock_version",       default: 0
+    t.boolean  "published",          default: false
+    t.boolean  "deleted",            default: false
+    t.boolean  "archived",           default: false
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
+
+  add_index "cms_blog_posts", ["version"], name: "index_cms_blog_posts_on_version", using: :btree
 
   create_table "cms_blog_versions", force: true do |t|
-    t.integer "blog_id"
-    t.integer "version"
-    t.string  "version_comment"
-    t.string  "name"
-    t.string  "format"
-    t.text    "template"
-    t.boolean "moderate_comments", default: true
+    t.string   "name"
+    t.string   "format"
+    t.text     "template"
+    t.boolean  "moderate_comments",  default: true
+    t.integer  "original_record_id"
+    t.integer  "version"
+    t.boolean  "published",          default: false
+    t.boolean  "deleted",            default: false
+    t.boolean  "archived",           default: false
+    t.string   "version_comment"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
-
-  add_index "cms_blog_versions", ["blog_id", "version"], name: "index_cms_blog_versions_on_id_and_version", using: :btree
 
   create_table "cms_blogs", force: true do |t|
-    t.integer "version"
-    t.integer "lock_version",      default: 0
-    t.string  "name"
-    t.string  "format"
-    t.text    "template"
-    t.boolean "moderate_comments", default: true
+    t.string   "name"
+    t.string   "format"
+    t.text     "template"
+    t.boolean  "moderate_comments", default: true
+    t.integer  "version"
+    t.integer  "lock_version",      default: 0
+    t.boolean  "published",         default: false
+    t.boolean  "deleted",           default: false
+    t.boolean  "archived",          default: false
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
+
+  add_index "cms_blogs", ["version"], name: "index_cms_blogs_on_version", using: :btree
 
   create_table "cms_categories", force: true do |t|
     t.integer  "category_type_id"
